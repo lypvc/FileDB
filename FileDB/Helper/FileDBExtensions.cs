@@ -118,9 +118,12 @@ namespace Numeria.IO
                     throw new FileDBException("Database file {0} already exists", dbFileName);
             }
 
-            using (FileStream fileStream = new FileStream(dbFileName, FileMode.CreateNew, FileAccess.Write))
+            using (FileStream fileStream = new FileStream(dbFileName,
+                FileMode.CreateNew,
+                FileAccess.Write,
+                FileShare.ReadWrite, 1024 * 1024 * 3))
             {
-                using(BinaryWriter writer = new BinaryWriter(fileStream))
+                using (BinaryWriter writer = new BinaryWriter(fileStream))
                 {
                     FileFactory.CreateEmptyFile(writer);
                 }

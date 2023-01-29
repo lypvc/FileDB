@@ -16,19 +16,26 @@ namespace TestConsole
             // Parallel Insert
             //
 
-            string dbFile = @"C:\Temp\MvcDemo.dat";
+            string dbFile = @"D:\Temp\MvcDemo.dat";
 
-            string[] files = new string[] {
-                @"C:\Temp\DSC04901.jpg", @"C:\Temp\DSC04902.jpg", @"C:\Temp\ZipFile.zip" };
+            //string[] files = new string[] {
+            //    @"D:\drocCloud\dcm\FLU Cheset.DCM", @"D:\drocCloud\dcm\TOMO.dcm", @"D:\drocCloud\dcm\重建图.dcm" };
 
-            Parallel.For(0, 3, (i) =>
+            //Parallel.For(0, 3, (i) =>
+            //{
+            //    Console.WriteLine("Starting " + Path.GetFileName(files[i]));
+            //    FileDB.Store(dbFile, files[i]);
+            //    Console.WriteLine("Ended " + Path.GetFileName(files[i]));
+
+            //});
+
+            var dbfiles = FileDB.ListFiles(dbFile);
+            foreach (var item in dbfiles)
             {
-                Console.WriteLine("Starting " + Path.GetFileName(files[i]));
-                FileDB.Store(dbFile, files[i]);
-                Console.WriteLine("Ended " + Path.GetFileName(files[i]));
-
-            });
-
+                var sm = new MemoryStream();
+                FileDB.Read(dbFile, item.ID, sm);
+                Console.WriteLine("ID:{0},Filename:{1},FileLength:{2},MimeType:{3}", item.ID, item.FileName, item.FileLength, item.MimeType);
+            }
 
             Console.ReadLine();
 
